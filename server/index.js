@@ -7,7 +7,7 @@ import authRouter from './routes/authRoute.js'
 
 const app = express();
 const port = process.env.PORT || 4000
-connnectDB();
+// connnectDB();
 
 app.use(express.json());
 app.use(cookieParser());
