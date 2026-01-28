@@ -12,8 +12,8 @@ const userSchema = new mongoose.Schema(
 
         //auth
         authProviders: {
-            googleId: { type: String, unique: true, sparse: true, default: null },
-            githubId: { type: String, unique: true, sparse: true, default: null },
+            googleId: { type: String, unique: true, sparse: true,  },
+            githubId: { type: String, unique: true, sparse: true,  },
         },
 
         //check user verified

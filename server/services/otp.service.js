@@ -16,3 +16,12 @@ export const createOtp = async (userId) => {
 
     return otp;
 };
+
+export const verifyOtp = async (userId, code) => {
+    const otp = await Otp.findOne({ userId, code });
+
+    if(!otp.expiresAt < new Date()) throw new Error("OTP Expired");
+
+    await Otp.deleteMany({ userId });
+    
+};
