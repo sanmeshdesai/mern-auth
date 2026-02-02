@@ -1,27 +1,44 @@
 import Otp from "../models/otp.model.js";
 import { generateOtp } from "../utils/otp.js";
 
+// create otp for user
 export const createOtp = async (userId) => {
-    
-    await Otp.deleteMany({ userId });
+  // delete existing otps for user
+  await Otp.deleteMany({ userId });
 
-    const code = generateOtp();
+  // generate new otp
+  const code = generateOtp();
 
-    //5 minutes
-    const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+  // set expiry time 5 minutes
+  const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
-    const otp = await Otp.create({
-        userId, code, expiresAt,
-    });
+  // create otp record
+  const otp = await Otp.create({
+    userId,
+    code,
+    expiresAt,
+  });
 
-    return otp;
+  return otp;
 };
 
+// verify otp for user
 export const verifyOtp = async (userId, code) => {
-    const otp = await Otp.findOne({ userId, code });
+  // find otp record
+  const otp = await Otp.findOne({ userId, code });
 
-    if(!otp.expiresAt < new Date()) throw new Error("OTP Expired");
+  // validate otp
+  if (!otp) {
+    throw new Error("Invalid OTP");
+  }
 
-    await Otp.deleteMany({ userId });
-    
+  // check expiry
+  if (otp.expiresAt < new Date()) {
+    throw new Error("OTP has expired");
+  }
+
+  // delete otp after verification
+  await Otp.deleteMany({ userId });
+
+  return true;
 };

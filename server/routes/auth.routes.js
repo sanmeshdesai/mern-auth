@@ -1,14 +1,22 @@
-import express from 'express';
-import { register, verifyEmailOtp } from '../controllers/auth.controller.js';
+import express from "express";
+import {
+  register,
+  resendEmailOtp,
+  verifyEmailOtp,
+} from "../controllers/auth.controller.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/register', register);
+// register user
+router.post("/register", register);
 
-router.post('/verify-otp', verifyEmailOtp)
+// verify email otp
+router.post("/verify-otp", verifyEmailOtp);
 
-// test email 
+// resend email otp
+router.post("/resend-otp", resendEmailOtp);
+
+// test email
 //  router.get('/test-email', testEmail);
-
 
 export default router;
